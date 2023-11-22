@@ -1,0 +1,20 @@
+{
+  "name": "das",
+  "version": "1.0.0",
+  "description": "Web app for scheduling appointments with doctor.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node index.js",
+    "server":"nodemon index.js"
+  },
+  "author": "devesh",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  
+    "type":"module"
+  
+}
