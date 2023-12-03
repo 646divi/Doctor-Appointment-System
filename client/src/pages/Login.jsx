@@ -3,26 +3,34 @@ import logo from "../assets/logo.jpg"
 import {Link, useNavigate} from "react-router-dom";
 import axios from 'axios';
 import { message } from 'antd';
+import {useDispatch,useSelector} from "react-redux"
+import { hideLoading, showLoading } from '../store/features/alertSlice';
 
 const Login = () => {
+    const dispatch=useDispatch();
     const navigate=useNavigate();
-    const handleResponse= async (e)=>{
+    const handleResponse=(e)=>{
         e.preventDefault();
         console.log("yes");
         const values={email:email,password:password};
+        dispatch(showLoading())
         axios.post("http://localhost:8080/api/v1/user/login",values).then((res)=>{
+            dispatch(hideLoading());
             console.log(res);
             const flg=res.data.success;
             if(flg){
+                
                 localStorage.setItem("token",res.data.token);
                 navigate("/");
                 message.success(res.data.message)
             }else{
+                // dispatch(hideLoading())
                 message.error(res.data.message);
             }
             // flg?message.success(res.data.message):message.error(res.data.message);
           
         }).catch((err)=>{
+            dispatch(hideLoading())
             console.log(err);
             message.error(err.response.data.message);
         });

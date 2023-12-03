@@ -3,6 +3,8 @@ import logo from "../assets/logo.jpg"
 import {Link,useNavigate} from "react-router-dom"
 import axios from "axios"
 import {message} from "antd";
+import { useDispatch } from 'react-redux';
+import { hideLoading, showLoading } from '../store/features/alertSlice';
 
 
 // import phtoo from "../logo"
@@ -16,6 +18,7 @@ const Register = () => {
             //         autoClose:3000,
             //     });
             // }
+    const dispatch=useDispatch();
     const navigate=useNavigate();
     const handleResponse= async (e)=>{
         e.preventDefault();
@@ -23,17 +26,21 @@ const Register = () => {
         console.log(values);
         console.log("yes");
         try {
+            dispatch(showLoading());
             const res=await axios.post("http://localhost:8080/api/v1/user/register",values);
             if(res.data.success){
+                dispatch(hideLoading());
                 console.log("Registered Successfully");
                 message.success(res.data.message)
                 navigate('/login')
                 
             }else{
+                dispatch(hideLoading());
                 console.log(res.data.message);
                 message.error(res.data.message);
             }
         } catch (error) {
+            dispatch(hideLoading());
             console.log("error aagya dost")
             console.log(error.request)
         }
