@@ -1,26 +1,28 @@
-// const express=require('express')
-import express from "express"
-// const dotenv=require("dotenv")
-import dotenv from "dotenv"
+const connectDB =require("./config/db")
+const mongoose=require("mongoose")
+const dotenv=require("dotenv")
+const express=require("express")
+const cors=require("cors");
 
 
 
 //dotenv config
 dotenv.config()
+
+//MongoDB connection
+connectDB();
 //rest objects
 const app=express();
-//middlewared
+//middlewares
+app.use(cors());
 app.use(express.json())
 
 //routes
-app.get("/",(req,res)=>{
-    res.status(200).send({
-        message:"server running ~ Devesh dada",
-    });
-});
+//register
+app.use("/api/v1/user",require("./routes/userRoute"))
 
 //port 
-const port=process.env.PORT 
+const port=process.env.PORT || 5173
 app.listen(port,()=>{
     console.log(`server is running successfully at port : ${port}`)
 });
